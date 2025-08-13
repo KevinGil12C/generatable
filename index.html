@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Tablas HTML Editable</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .editable {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .editable:hover {
+            background-color: #f0f8ff !important;
+        }
+
+        .editable:focus {
+            background-color: #fff !important;
+            outline: 2px solid #86b7fe;
+        }
+
+        .table-container {
+            position: relative;
+        }
+
+        .table-actions {
+            position: absolute;
+            right: 0;
+            top: -40px;
+        }
+
+        .header-bg {
+            background-color: #004697;
+            color: white;
+        }
+
+        .code-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .sortable-handle {
+            cursor: move;
+            color: #6c757d;
+        }
+        
+        /* Estilos para el header y footer */
+        .main-header {
+            background-color: #004697;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .main-footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,.8);
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: white;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        /* Estilos para el modal de acerca de */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #004697;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: #004697;
+            transition: transform 0.3s;
+        }
+        
+        .social-link:hover {
+            transform: scale(1.2);
+            color: #003366;
+        }
+        
+        .skill-badge {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="logo">
+                        <i class="fas fa-table me-2"></i>Generador de Tablas
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                                <i class="fas fa-info-circle me-1"></i> Acerca de
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-envelope me-1"></i> Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal Acerca de -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">Acerca del Desarrollador</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="https://kevingil12c.github.io/portafolio-kevscl/assets/images/icon.jpeg
+" alt="Tu foto de perfil" class="profile-img">
+                    <h3>Kevin Jesús Coyote Gil</h3>
+                    <p class="text-muted">Desarrollador Web</p>
+                    
+                    <div class="my-4">
+                        <p>¡Hola! Soy un apasionado desarrollador web con experiencia en creación de herramientas útiles como este generador de tablas HTML.</p>
+                        <p>Especializado en frontend con HTML, CSS, JavaScript y frameworks modernos, pero también con sólidos conocimientos en backend.</p>
+                    </div>
+                    
+                    <h4 class="mt-4">Mis Habilidades</h4>
+                    <div class="mb-4">
+                        <span class="badge bg-primary skill-badge">HTML5</span>
+                        <span class="badge bg-primary skill-badge">CSS3</span>
+                        <span class="badge bg-primary skill-badge">JavaScript</span>
+                        <span class="badge bg-primary skill-badge">Bootstrap</span>
+                        <span class="badge bg-primary skill-badge">jQuery</span>
+                        <span class="badge bg-success skill-badge">React</span>
+                        <span class="badge bg-success skill-badge">Node.js</span>
+                        <span class="badge bg-success skill-badge">PHP</span>
+                        <span class="badge bg-info skill-badge">MySQL</span>
+                        <span class="badge bg-info skill-badge">SQLite</span>
+                        <span class="badge bg-warning skill-badge">Git</span>
+                        <span class="badge bg-warning skill-badge">GitHub</span>
+                    </div>
+                    
+                    <h4 class="mt-4">Conéctate Conmigo</h4>
+                    <div class="social-links my-3">
+                        <!-- Reemplaza los # con tus enlaces reales -->
+                        <a href="https://github.com/KevinGil12C" target="_blank" class="social-link" title="GitHub" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/kevin-jesus-coyote-gil-030287288/" target="_blank" class="social-link" title="LinkedIn" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" target="_blank" class="social-link" title="Twitter" target="_blank"> 
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://kevingil12c.github.io/portafolio-kevscl/" target="_blank" class="social-link" title="Portafolio" target="_blank">
+                            <i class="fas fa-briefcase"></i>
+                        </a>
+                        <a href="https://kevingil12c.github.io/blog_seguridad_informacion/" target="_blank" class="social-link" title="Blog" target="_blank">
+                            <i class="fab fa-medium"></i>
+                        </a>
+                        <a href="mailto:kebo.jcg77@gmail.com" class="social-link" title="Email" target="_blank">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="https://cvdesignr.com/p/6699d06173214" download class="btn btn-primary me-2" target="_blank">
+                            <i class="fas fa-download me-1"></i> Descargar CV
+                        </a>
+                        <a href="https://api.whatsapp.com/send?phone=TU_NUMERO" class="btn btn-success" target="_blank">
+                            <i class="fab fa-whatsapp me-1"></i> Contactar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow">
+                    <div class="card-header header-bg">
+                        <h2 class="h4 mb-0 text-white"><i class="fas fa-table me-2"></i>Generador de Tablas HTML Editable</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Resto del contenido del generador de tablas... -->
+                        <!-- (Mantén todo el contenido del generador de tablas que ya tenías) -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="table-title" class="form-label">Título de la tabla</label>
+                                <input type="text" class="form-control" id="table-title" placeholder="Ej: TOURS OPCIONALES" value="TOURS OPCIONALES">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="rows" class="form-label">Filas</label>
+                                <input type="number" class="form-control" id="rows" min="1" value="3">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="cols" class="form-label">Columnas</label>
+                                <input type="number" class="form-control" id="cols" min="1" value="4">
+                            </div>
+                        </div>
+
+                        <div id="column-config" class="row g-3 mb-4"></div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label for="header-bg" class="form-label">Color encabezado</label>
+                                <input type="color" class="form-control form-control-color" id="header-bg" value="#004697">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="header-text" class="form-label">Color texto</label>
+                                <input type="color" class="form-control form-control-color" id="header-text" value="#ffffff">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="border-color" class="form-label">Color bordes</label>
+                                <input type="color" class="form-control form-control-color" id="border-color" value="#dddddd">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-4">
+                            <button id="generate-btn" class="btn btn-primary">
+                                <i class="fas fa-magic me-2"></i>Generar Tabla
+                            </button>
+                            <div>
+                                <button id="add-row-btn" class="btn btn-success me-2" style="display: none;">
+                                    <i class="fas fa-plus me-1"></i>Añadir Fila
+                                </button>
+                                <button id="add-col-btn" class="btn btn-success" style="display: none;">
+                                    <i class="fas fa-plus me-1"></i>Añadir Columna
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="table-preview-container" class="mb-4" style="display: none;">
+                            <h5 class="mb-3">Vista previa</h5>
+                            <div class="table-container">
+                                <div class="table-actions btn-group">
+                                    <button id="edit-table-btn" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-edit me-1"></i>Editar
+                                    </button>
+                                    <button id="save-table-btn" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-save me-1"></i>Guardar
+                                    </button>
+                                </div>
+                                <div id="table-preview" class="table-responsive"></div>
+                            </div>
+                        </div>
+
+                        <div id="result" style="display: none;">
+                            <h5 class="mb-3">Código HTML generado</h5>
+                            <div class="code-container">
+                                <button id="copy-code-btn" class="btn btn-sm btn-outline-secondary copy-btn">
+                                    <i class="fas fa-copy me-1"></i>Copiar
+                                </button>
+                                <textarea id="html-code" class="form-control mb-3" rows="10" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light text-muted small">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Generador de tablas HTML editable</span>
+                            <span id="status-message" class="text-success"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Generador de Tablas</h5>
+                    <p>Herramienta para crear tablas HTML editables con estilo profesional. Perfecto para desarrolladores web y diseñadores.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Enlaces útiles</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="#"><i class="fas fa-chevron-right me-1"></i> Documentación</a></li>
+                        <li class="mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                            <i class="fas fa-chevron-right me-1"></i> Acerca del desarrollador
+                        </a></li>
+                        <li class="mb-2"><a href="#"><i class="fas fa-chevron-right me-1"></i> Tutoriales</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-1"></i> Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Contacto</h5>
+                    <p><i class="fas fa-envelope me-2"></i> kebo.jcg77@gmail.com</p>
+                    <div class="social-icons mt-3">
+                        <a href="https://github.com/KevinGil12C" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/kevin-jesus-coyote-gil-030287288/" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/tuusuario" target="_blank" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://kevingil12c.github.io/portafolio-kevscl/" target="_blank" title="Portafolio">
+                            <i class="fas fa-briefcase"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Generador de Tablas. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">
+                        <a href="#" class="text-white me-3">Términos</a>
+                        <a href="#" class="text-white me-3">Privacidad</a>
+                        <a href="#" class="text-white">Política de cookies</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery UI para arrastrar y soltar -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Configuración inicial
+            let isEditing = false;
+            let currentTableHtml = '';
+
+            // Generar configuración de columnas
+            $('#cols').on('input', function () {
+                const cols = parseInt($(this).val());
+                let html = '';
+
+                const defaultNames = ['Título', 'Descripción', 'Día', 'Costo por persona'];
+                const defaultAligns = ['left', 'left', 'center', 'right'];
+
+                for (let i = 0; i < cols; i++) {
+                    const colName = i < defaultNames.length ? defaultNames[i] : `Columna ${i + 1}`;
+                    const colAlign = i < defaultAligns.length ? defaultAligns[i] : 'left';
+
+                    html += `
+                    <div class="col-md-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Columna ${i + 1}</h6>
+                                <div class="mb-3">
+                                    <label for="col-${i}" class="form-label small">Nombre</label>
+                                    <input type="text" class="form-control form-control-sm" id="col-${i}" value="${colName}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="align-${i}" class="form-label small">Alineación</label>
+                                    <select class="form-select form-select-sm" id="align-${i}">
+                                        <option value="left" ${colAlign === 'left' ? 'selected' : ''}>Izquierda</option>
+                                        <option value="center" ${colAlign === 'center' ? 'selected' : ''}>Centro</option>
+                                        <option value="right" ${colAlign === 'right' ? 'selected' : ''}>Derecha</option>
+                                    </select>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="sortable-${i}" ${i === 0 ? 'checked' : ''}>
+                                    <label class="form-check-label small" for="sortable-${i}">Ordenable</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }
+
+                $('#column-config').html(html);
+            }).trigger('input');
+
+            // Generar tabla
+            $('#generate-btn').click(function () {
+                const rows = parseInt($('#rows').val());
+                const cols = parseInt($('#cols').val());
+                const tableTitle = $('#table-title').val();
+                const headerBg = $('#header-bg').val();
+                const headerText = $('#header-text').val();
+                const borderColor = $('#border-color').val();
+
+                // Obtener nombres de columnas y configuraciones
+                const columnNames = [];
+                const columnAlignments = [];
+                const columnSortable = [];
+
+                for (let i = 0; i < cols; i++) {
+                    columnNames.push($(`#col-${i}`).val() || `Columna ${i + 1}`);
+                    columnAlignments.push($(`#align-${i}`).val());
+                    columnSortable.push($(`#sortable-${i}`).is(':checked'));
+                }
+
+                // Generar HTML de la tabla
+                let html = `
+<div style="margin: 30px 0; font-family: Arial, sans-serif;">
+    ${tableTitle ? `<h2 style="font-size: 15pt; margin-bottom: 16px; color: #333;">${tableTitle.toUpperCase()}</h2>` : ''}
+
+    <div style="overflow-x: auto;">
+        <table class="table-bordered" style="width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; border-radius: 8px; overflow: hidden; border-color: ${borderColor}">
+            <thead>
+                <tr>
+                `;
+
+                // Encabezados
+                for (let i = 0; i < cols; i++) {
+                    const borderRadius = i === 0 ? 'border-top-left-radius: 8px;' :
+                        i === cols - 1 ? 'border-top-right-radius: 8px;' : '';
+
+                    const sortIcon = columnSortable[i] ? '<i class="fas fa-sort sortable-handle ms-1"></i>' : '';
+
+                    html += `
+                    <th style="padding: 12px 8px; text-align: ${columnAlignments[i]}; border: 1px solid ${borderColor}; font-weight: bold; background-color: ${headerBg}; color: ${headerText}; ${borderRadius}">
+                        ${columnNames[i]}${sortIcon}
+                    </th>
+                    `;
+                }
+
+                html += `
+                </tr>
+            </thead>
+            <tbody>
+                `;
+
+                // Filas
+                for (let r = 0; r < rows; r++) {
+                    const isOdd = r % 2 === 0;
+                    const bgColor = isOdd ? 'white' : '#f9f9f9';
+                    const isLast = r === rows - 1;
+
+                    html += `
+                <tr style="background-color: ${bgColor};">
+                    `;
+
+                    for (let c = 0; c < cols; c++) {
+                        const borderRadiusLeft = isLast && c === 0 ? 'border-bottom-left-radius: 8px;' : '';
+                        const borderRadiusRight = isLast && c === cols - 1 ? 'border-bottom-right-radius: 8px;' : '';
+
+                        html += `
+                    <td style="padding: 12px 8px; border: 1px solid ${borderColor}; text-align: ${columnAlignments[c]}; vertical-align: top; color: #333; ${borderRadiusLeft} ${borderRadiusRight}" 
+                        class="editable" contenteditable="false" data-row="${r}" data-col="${c}">
+                      
+                    </td>
+                        `;
+                    }
+
+                    html += `
+                </tr>
+                    `;
+                }
+
+                html += `
+            </tbody>
+        </table>
+    </div>
+</div>
+                `;
+
+                // Mostrar resultado
+                currentTableHtml = html;
+                $('#table-preview').html(html);
+                $('#html-code').val(html);
+                $('#table-preview-container, #result').show();
+                $('#add-row-btn, #add-col-btn').show();
+
+                // Hacer las celdas editables
+                initTableEditing();
+
+                showStatusMessage('Tabla generada correctamente', 'success');
+            });
+
+            // Función para inicializar la edición de la tabla
+            function initTableEditing() {
+                $('.editable').off('click').on('click', function () {
+                    if (isEditing) {
+                        $(this).attr('contenteditable', 'true').focus();
+                    }
+                }).on('blur', function () {
+                    $(this).attr('contenteditable', 'false');
+                    updateTableCode();
+                });
+
+                // Hacer filas ordenables
+                $('tbody').sortable({
+                    handle: '.sortable-handle',
+                    axis: 'y',
+                    containment: 'parent',
+                    cursor: 'move',
+                    tolerance: 'pointer',
+                    update: function () {
+                        updateTableCode();
+                    }
+                }).disableSelection();
+            }
+
+            // Actualizar el código HTML cuando se edita la tabla
+            function updateTableCode() {
+                currentTableHtml = $('#table-preview').html();
+                $('#html-code').val(currentTableHtml);
+            }
+
+            // Botón para editar tabla
+            $('#edit-table-btn').click(function () {
+                isEditing = !isEditing;
+                if (isEditing) {
+                    $(this).html('<i class="fas fa-times me-1"></i>Cancelar').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+                    showStatusMessage('Modo edición activado - Haz clic en las celdas para editarlas', 'info');
+                } else {
+                    $(this).html('<i class="fas fa-edit me-1"></i>Editar').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
+                    showStatusMessage('Edición cancelada', 'warning');
+                }
+            });
+
+            // Botón para guardar tabla
+            $('#save-table-btn').click(function () {
+                updateTableCode();
+                isEditing = false;
+                $('#edit-table-btn').html('<i class="fas fa-edit me-1"></i>Editar').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
+                showStatusMessage('Cambios guardados correctamente', 'success');
+            });
+
+            // Añadir nueva fila
+            $('#add-row-btn').click(function () {
+                const cols = parseInt($('#cols').val());
+                const rows = parseInt($('#rows').val()) + 1;
+                $('#rows').val(rows);
+
+                const isOdd = (rows - 1) % 2 === 0;
+                const bgColor = isOdd ? 'white' : '#f9f9f9';
+
+                let newRow = '<tr style="background-color: ' + bgColor + ';">';
+
+                for (let c = 0; c < cols; c++) {
+                    const alignment = $(`#align-${c}`).val();
+                    const borderRadiusLeft = c === 0 ? 'border-bottom-left-radius: 8px;' : '';
+                    const borderRadiusRight = c === cols - 1 ? 'border-bottom-right-radius: 8px;' : '';
+
+                    newRow += `
+                    <td style="padding: 12px 8px; border: 1px solid ${$('#border-color').val()}; text-align: ${alignment}; vertical-align: top; color: #333; ${borderRadiusLeft} ${borderRadiusRight}" 
+                        class="editable" contenteditable="false" data-row="${rows - 1}" data-col="${c}">
+                        
+                    </td>
+                    `;
+                }
+
+                newRow += '</tr>';
+
+                $('tbody').append(newRow);
+                initTableEditing();
+                updateTableCode();
+                showStatusMessage('Fila añadida correctamente', 'success');
+            });
+
+            // Añadir nueva columna
+            $('#add-col-btn').click(function () {
+                const cols = parseInt($('#cols').val()) + 1;
+                $('#cols').val(cols);
+
+                // Actualizar configuración de columnas
+                $('#cols').trigger('input');
+
+                // Re-generar la tabla completa
+                $('#generate-btn').click();
+
+                showStatusMessage('Columna añadida - Por favor configura la nueva columna y regenera la tabla', 'info');
+            });
+
+            // Copiar código al portapapeles
+            $('#copy-code-btn').click(function () {
+                $('#html-code').select();
+                document.execCommand('copy');
+                showStatusMessage('Código copiado al portapapeles', 'success');
+            });
+
+            // Mostrar mensajes de estado
+            function showStatusMessage(message, type) {
+                const status = $('#status-message');
+                status.removeClass('text-success text-danger text-warning text-info')
+                    .addClass(`text-${type}`)
+                    .text(message);
+
+                setTimeout(function () {
+                    status.text('');
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
